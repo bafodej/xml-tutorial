@@ -1,0 +1,75 @@
+
+<!-- Tutoriel d'initiation au XML (eXtensible Markup Language) -->
+
+<!-- Déclaration XML standard -->
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Balise racine spécifique à Odoo -->
+<odoo>
+    
+    <!-- Conteneur optionnel mais recommandé pour les données -->
+    <data>
+        
+        <!-- STRUCTURE DE BASE D'UN RECORD -->
+        <!-- Un record crée un enregistrement dans la base de données -->
+        <record id="identifiant_unique" model="nom.du.modele">
+            <field name="nom_du_champ">valeur</field>
+        </record>
+        
+        
+        <!-- EXEMPLE CONCRET : Créer un partenaire -->
+        <record id="partner_exemple" model="res.partner">
+            <field name="name">Jean Dupont</field>
+            <field name="email">jean.dupont@example.com</field>
+            <field name="phone">0123456789</field>
+        </record>
+        
+        
+        <!-- DIFFÉRENTS TYPES DE CHAMPS -->
+        
+        <!-- Champ texte simple -->
+        <record id="example_text" model="res.partner">
+            <field name="name">Texte simple</field>
+        </record>
+        
+        <!-- Champ booléen (True/False) -->
+        <record id="example_boolean" model="res.partner">
+            <field name="active" eval="True"/>
+            <field name="is_company" eval="False"/>
+        </record>
+        
+        <!-- Champ numérique -->
+        <record id="example_number" model="product.product">
+            <field name="list_price" eval="99.99"/>
+            <field name="sequence" eval="10"/>
+        </record>
+        
+        
+        <!--  RELATIONS ENTRE RECORDS -->
+        
+        <!-- Many2one : référence à UN autre enregistrement -->
+        <record id="partner_with_country" model="res.partner">
+            <field name="name">Marie Martin</field>
+            <field name="country_id" ref="base.fr"/>  <!-- Référence à la France -->
+        </record>
+        
+        <!-- Référencer un record défini dans le même fichier -->
+        <record id="child_partner" model="res.partner">
+            <field name="name">Contact</field>
+            <field name="parent_id" ref="partner_exemple"/>  <!-- Référence partner_exemple -->
+        </record>
+        
+        
+        <!--  CONVENTION DE NOMMAGE DES ID -->
+        <!-- Format recommandé : module_nom.type_description -->
+        <!-- Exemples :
+            - certification.category_it
+            - certification.view_form
+            - certification.menu_main
+            - certification.action_window
+        -->
+        
+    </data>
+    
+</odoo>
+
