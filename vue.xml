@@ -1,0 +1,182 @@
+<!-- ============================================ -->
+<!--         VUES ODOO           -->
+<!-- ============================================ -->
+
+<!-- 
+    Les vues définissent comment les données sont affichées à l'utilisateur.
+    Types principaux : form, tree, kanban, search, calendar, graph, pivot
+-->
+
+
+<!-- VUE FORMULAIRE (form) -->
+<!-- Affiche les détails d'un enregistrement -->
+
+<record id="view_partner_form_tutorial" model="ir.ui.view">
+    <field name="name">partner.form.tutorial</field>
+    <field name="model">res.partner</field>
+    <field name="arch" type="xml">
+        <form>
+            <!-- En-tête avec boutons d'action -->
+            <header>
+                <button name="action_archive" string="Archiver" type="object"/>
+            </header>
+            
+            <!-- Feuille principale du formulaire -->
+            <sheet>
+                <!-- Titre -->
+                <div class="oe_title">
+                    <h1>
+                        <field name="name" placeholder="Nom du contact"/>
+                    </h1>
+                </div>
+                
+                <!-- Groupes de champs -->
+                <group>
+                    <group name="contact_info" string="Informations de contact">
+                        <field name="email"/>
+                        <field name="phone"/>
+                        <field name="mobile"/>
+                    </group>
+                    
+                    <group name="address_info" string="Adresse">
+                        <field name="street"/>
+                        <field name="city"/>
+                        <field name="zip"/>
+                        <field name="country_id"/>
+                    </group>
+                </group>
+                
+                <!-- Notebook avec onglets -->
+                <notebook>
+                    <page string="Informations générales" name="general">
+                        <group>
+                            <field name="website"/>
+                            <field name="company_type"/>
+                        </group>
+                    </page>
+                    
+                    <page string="Notes" name="notes">
+                        <field name="comment" placeholder="Notes internes..."/>
+                    </page>
+                </notebook>
+            </sheet>
+            
+            <!-- Zone de discussion (chatter) -->
+            <div class="oe_chatter">
+                <field name="message_follower_ids"/>
+                <field name="message_ids"/>
+            </div>
+        </form>
+    </field>
+</record>
+
+
+<!-- VUE LISTE/ARBRE (tree) -->
+<!-- Affiche plusieurs enregistrements sous forme de tableau -->
+
+<record id="view_partner_tree_tutorial" model="ir.ui.view">
+    <field name="name">partner.tree.tutorial</field>
+    <field name="model">res.partner</field>
+    <field name="arch" type="xml">
+        <tree string="Contacts">
+            <!-- Champs à afficher dans la liste -->
+            <field name="name"/>
+            <field name="email"/>
+            <field name="phone"/>
+            <field name="city"/>
+            <field name="country_id"/>
+            
+            <!-- Champ optionnel (caché par défaut) -->
+            <field name="website" optional="hide"/>
+        </tree>
+    </field>
+</record>
+
+
+<!-- VUE RECHERCHE (search) -->
+<!-- Définit les filtres et regroupements disponibles -->
+
+<record id="view_partner_search_tutorial" model="ir.ui.view">
+    <field name="name">partner.search.tutorial</field>
+    <field name="model">res.partner</field>
+    <field name="arch" type="xml">
+        <search>
+            <!-- Champs de recherche -->
+            <field name="name" string="Nom"/>
+            <field name="email"/>
+            <field name="phone"/>
+            
+            <!-- Filtres prédéfinis -->
+            <filter name="filter_company" string="Entreprises" 
+                    domain="[('is_company', '=', True)]"/>
+            <filter name="filter_person" string="Personnes" 
+                    domain="[('is_company', '=', False)]"/>
+            
+            <!-- Séparateur -->
+            <separator/>
+            
+            <!-- Filtres de regroupement -->
+            <filter name="group_country" string="Par pays" 
+                    context="{'group_by': 'country_id'}"/>
+            <filter name="group_city" string="Par ville" 
+                    context="{'group_by': 'city'}"/>
+        </search>
+    </field>
+</record>
+
+
+<!-- 4. VUE KANBAN -->
+<!-- Affichage en cartes (type Trello) -->
+
+<record id="view_partner_kanban_tutorial" model="ir.ui.view">
+    <field name="name">partner.kanban.tutorial</field>
+    <field name="model">res.partner</field>
+    <field name="arch" type="xml">
+        <kanban>
+            <!-- Template de la carte -->
+            <templates>
+                <t t-name="kanban-box">
+                    <div class="oe_kanban_card">
+                        <div class="oe_kanban_content">
+                            <strong><field name="name"/></strong>
+                            <div>
+                                <field name="email"/>
+                            </div>
+                            <div>
+                                <field name="phone"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </templates>
+        </kanban>
+    </field>
+</record>
+
+
+<!-- ============================================ -->
+<!--      ÉLÉMENTS IMPORTANTS DES VUES           -->
+<!-- ============================================ -->
+
+<!--
+ATTRIBUTS COMMUNS D'UNE VUE :
+- id          : identifiant unique de la vue
+- model       : modèle Odoo concerné (ir.ui.view)
+- name        : nom technique de la vue
+- model (field): modèle sur lequel porte la vue (res.partner, product.product, etc.)
+- arch        : architecture XML de la vue
+
+STRUCTURE D'UN FORMULAIRE :
+- <header>    : boutons d'action en haut
+- <sheet>     : contenu principal
+- <group>     : regroupement de champs (2 colonnes par défaut)
+- <notebook>  : onglets
+- <page>      : un onglet dans le notebook
+
+ATTRIBUTS DE CHAMP UTILES :
+- placeholder : texte d'aide
+- required    : champ obligatoire
+- readonly    : champ en lecture seule
+- invisible   : masquer le champ selon condition
+- widget      : widget personnalisé (many2many_tags, image, etc.)
+-->
