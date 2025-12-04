@@ -125,7 +125,7 @@
 </record>
 
 
-<!-- 4. VUE KANBAN -->
+<!--  VUE KANBAN -->
 <!-- Affichage en cartes (type Trello) -->
 
 <record id="view_partner_kanban_tutorial" model="ir.ui.view">
